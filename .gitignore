@@ -1,0 +1,33 @@
+# Archivos y carpetas del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Dependencias de PHP (¡La más pesada!)
+/vendor
+
+# Dependencias de JavaScript (¡La otra más pesada!)
+/node_modules
+
+# Archivo de entorno (¡Contiene secretos y contraseñas!)
+.env
+.env.backup
+
+# Archivos de log y temporales de Laravel
+/storage/logs
+/storage/framework/cache/data
+/storage/framework/sessions
+/storage/framework/testing
+/storage/framework/views
+/bootstrap/cache
+
+# Archivos generados por Laravel
+/public/hot
+/public/storage
+
+# Archivos de editores de código
+.vscode/
+.idea/
+
+# Otros
+npm-debug.log*
+yarn-error.log
