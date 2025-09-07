@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # Servicio de la aplicación Laravel (PHP)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: terastore-app
+    container_name: terastore_app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - terastore_network
+
+  # Servicio del Servidor Web (Nginx)
+  nginx:
+    image: nginx:alpine
+    container_name: terastore_nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - terastore_network
+
+  # Servicio de la Base de Datos (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: terastore_db
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - terastore_network
+
+# Definición de la red y el volumen
+networks:
+  terastore_network:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local
+    
